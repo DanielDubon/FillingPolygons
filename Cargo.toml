@@ -1,0 +1,6 @@
+[package]
+name = "Ejercicio_colores"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
