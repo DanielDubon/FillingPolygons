@@ -1,37 +1,37 @@
 mod color;
 mod framebuffer;
 mod bmp;
+mod line_impl;
+mod vertex;
 
-use color::Color;
 use framebuffer::Framebuffer;
-use std::io::Result;
+use line_impl::Line;
+use crate::vertex::Vertex;
+use nalgebra_glm::{Vec3};
 
-fn main() -> Result<()>{
-    let mut framebuffer = Framebuffer::new(800, 600);
-
-    framebuffer.set_background_color(0xADD8E6);
+fn main() {
+    let width = 800;
+    let height = 600;
+    let mut framebuffer = Framebuffer::new(width, height);
+    framebuffer.set_background_color(0xFFFFFF);
     framebuffer.clear();
 
-    framebuffer.set_current_color(0xFF0000);
-    framebuffer.point(400, 300);
-    framebuffer.point(401, 300);
-    framebuffer.point(400, 301);
-    framebuffer.point(401, 301);
+    // Usa Vec3 para definir los vértices
+    let vertices = [
+        Vec3::new(165.0, 380.0, 0.0),
+        Vec3::new(185.0, 360.0, 0.0),
+        Vec3::new(180.0, 330.0, 0.0),
+        Vec3::new(207.0, 345.0, 0.0),
+        Vec3::new(233.0, 330.0, 0.0),
+        Vec3::new(230.0, 360.0, 0.0),
+        Vec3::new(250.0, 380.0, 0.0),
+        Vec3::new(220.0, 385.0, 0.0),
+        Vec3::new(205.0, 410.0, 0.0),
+        Vec3::new(193.0, 383.0, 0.0)
+    ];
 
-    framebuffer.set_current_color(0x00FF00);
-    framebuffer.point(200, 150);
-    framebuffer.point(201, 150);
-    framebuffer.point(200, 151);
-    framebuffer.point(201, 151);
-
-    framebuffer.set_current_color(0x0000FF);
-    framebuffer.point(600, 450);
-    framebuffer.point(601, 450);
-    framebuffer.point(600, 451);
-    framebuffer.point(601, 451);
-
-    framebuffer.render_buffer("output.bmp")?;
-
-    println!("Framebuffer rendered to output.bmp");
-    Ok(())
+    framebuffer.draw_polygon(&vertices);
+    framebuffer.fill_polygon(&vertices);
+    framebuffer.render_buffer("filled_polygonPR.bmp");
+    
 }
