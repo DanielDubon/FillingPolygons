@@ -39,10 +39,18 @@ fn main() {
         Vec3::new(374.0, 302.0, 0.0),
     ];
 
+
+    let vertices_polygon_3 = [
+    Vec3::new(377.0, 249.0, 0.0),
+    Vec3::new(411.0, 197.0, 0.0),
+    Vec3::new(436.0, 249.0, 0.0),
+];
+
     // Definir colores
     let yellow = Color::new(255, 255, 0);
     let white = Color::new(255, 255, 255);
     let blue = Color::new(0, 0, 255);
+    let red = Color::new(255, 0, 0);
 
 
     framebuffer.fill_polygon(&vertices_polygon_1, yellow);
@@ -50,6 +58,9 @@ fn main() {
 
     framebuffer.fill_polygon(&vertices_polygon_2, blue);
     framebuffer.draw_polygon(&vertices_polygon_2, white);
+
+    framebuffer.fill_polygon(&vertices_polygon_3, red);
+    framebuffer.draw_polygon(&vertices_polygon_3, white);
 
     framebuffer.render_buffer("out.bmp").unwrap();
     
