@@ -3,15 +3,15 @@
 use crate::framebuffer::Framebuffer;
 use crate::vertex::Vertex;
 use nalgebra_glm::Vec3;
+use crate::color::Color;
 
 pub trait Line {
-    fn line(&mut self, start: Vec3, end: Vec3);
-    fn draw_polygon(&mut self, points: &[Vec3]);
+    fn line(&mut self, start: Vec3, end: Vec3, color: Color);
+    fn draw_polygon(&mut self, points: &[Vec3], line_color: Color);
 }
 
-
 impl Line for Framebuffer {
-    fn line(&mut self, start: Vec3, end: Vec3) {
+    fn line(&mut self, start: Vec3, end: Vec3, color: Color) {
         let mut x = start.x as isize;
         let mut y = start.y as isize;
         let x2 = end.x as isize;
@@ -23,7 +23,7 @@ impl Line for Framebuffer {
         let mut err = dx + dy;
 
         loop {
-            self.point(x, y); // Correct call with isize
+            self.set_pixel(x, y, color); // Usar el color proporcionado
             if x == x2 && y == y2 { break; }
             let e2 = 2 * err;
             if e2 >= dy {
@@ -37,7 +37,7 @@ impl Line for Framebuffer {
         }
     }
 
-    fn draw_polygon(&mut self, points: &[Vec3]) {
+    fn draw_polygon(&mut self, points: &[Vec3], line_color: Color) {
         if points.len() < 3 {
             return; // Un polígono requiere al menos 3 puntos
         }
@@ -45,17 +45,11 @@ impl Line for Framebuffer {
         let mut last_point = &points[0]; // Comienza con el primer punto para cerrar el polígono al final
 
         for point in points.iter().skip(1) {
-            self.line(*last_point, *point);
+            self.line(*last_point, *point, line_color); // Pasar el color aquí
             last_point = point;
         }
 
         // Conectar el último punto con el primero para cerrar el polígono
-        self.line(*last_point, points[0]);
+        self.line(*last_point, points[0], line_color); // Pasar el color aquí
     }
 }
-
-
-
-
-
-
