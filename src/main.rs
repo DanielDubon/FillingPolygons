@@ -18,7 +18,7 @@ fn main() {
     framebuffer.clear();
 
     // Usa Vec3 para definir los vértices
-    let vertices = [
+    let vertices_polygon_1 = [
         Vec3::new(165.0, 380.0, 0.0),
         Vec3::new(185.0, 360.0, 0.0),
         Vec3::new(180.0, 330.0, 0.0),
@@ -31,12 +31,26 @@ fn main() {
         Vec3::new(193.0, 383.0, 0.0)
     ];
 
+   
+     let vertices_polygon_2 = [
+        Vec3::new(321.0, 335.0, 0.0),
+        Vec3::new(288.0, 286.0, 0.0),
+        Vec3::new(339.0, 251.0, 0.0),
+        Vec3::new(374.0, 302.0, 0.0),
+    ];
+
     // Definir colores
     let yellow = Color::new(255, 255, 0);
     let white = Color::new(255, 255, 255);
+    let blue = Color::new(0, 0, 255);
 
-    framebuffer.fill_polygon(&vertices, yellow);
-    framebuffer.draw_polygon(&vertices, white);
-    framebuffer.render_buffer("filled_polygonPR.bmp").unwrap();
+
+    framebuffer.fill_polygon(&vertices_polygon_1, yellow);
+    framebuffer.draw_polygon(&vertices_polygon_1, white);
+
+    framebuffer.fill_polygon(&vertices_polygon_2, blue);
+    framebuffer.draw_polygon(&vertices_polygon_2, white);
+
+    framebuffer.render_buffer("out.bmp").unwrap();
     
 }
